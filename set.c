@@ -216,7 +216,7 @@ int set_from_elements ( set **const pp_set, const void **const pp_elements, size
     }
 }
 
-int set_add ( set *const p_set, const void *p_element )
+int set_add ( set *const p_set, void *const p_element )
 {
 
     // Argument check
@@ -314,5 +314,44 @@ int  set_remove              ( set        *const p_set , void        *const p_va
 int  set_clear               ( set        *const p_set );
 int  set_free_clear          ( set        *const p_set , void       (*pfn_free_func) );
 int  set_copy                ( const set  *const p_set , set        **const pp_set );
-int  set_destroy             ( set       **const pp_set );
 */
+
+int set_destroy ( set **const pp_set )
+{
+    
+    // Argument check
+    if ( pp_set == (void *) 0 ) goto no_set;
+
+    // Initialized data
+    set *p_set = *pp_set;
+
+    // No more set for caller
+    *pp_set = (void *) 0;
+
+    // Lock the mutex
+    mutex_lock(p_set->_lock);
+
+    // Free the set elements
+    (void)SET_REALLOC(p_set->elements, 0); 
+
+    // Destroy the lock
+    mutex_destroy(&p_set->_lock);
+    
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set: 
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif  
+
+                // Error
+                return 0;
+        }
+    }
+}
