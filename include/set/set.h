@@ -39,6 +39,11 @@ struct set_s;
  */
 typedef struct set_s set;
 
+/** !
+ *  @brief The type definition for a function that tests the equality of two set members
+ */
+typedef int (set_equal_fn)(const void *a, const void *b);
+
 // Allocaters
 /** !
  *  Allocate memory for a set
@@ -55,9 +60,10 @@ DLLEXPORT int set_create ( set **const pp_set );
 /** !
  *  Construct a set with a specific number of elements
  *
- * @param pp_set return
- * @param size   number of set elements. 
- *
+ * @param pp_set       return
+ * @param size         number of set elements. 
+ * @param pfn_is_equal function for testing equality of elements in set IF parameter is not null ELSE default
+ * 
  * @sa set_create
  * @sa set_from_elements
  * @sa set_union
@@ -66,14 +72,15 @@ DLLEXPORT int set_create ( set **const pp_set );
  *
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_construct ( set **const pp_set, size_t size );
+DLLEXPORT int set_construct ( set **const pp_set, size_t size, set_equal_fn *pfn_is_equal );
 
 /** !
  *  Construct a set from an array of elements
  *
- * @param pp_set      return
- * @param pp_elements pointer to array of elements
- * @param size        quantity of elements in element parameter. 
+ * @param pp_set       return
+ * @param pp_elements  pointer to array of elements
+ * @param size         quantity of elements in element parameter. 
+ * @param pfn_is_equal function for testing equality of elements in set IF parameter is not null ELSE default
  *
  * @sa set_create
  * @sa set_construct
@@ -83,7 +90,7 @@ DLLEXPORT int set_construct ( set **const pp_set, size_t size );
  *
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_from_elements ( set **const pp_set, const void **const pp_elements, size_t size );
+DLLEXPORT int set_from_elements ( set **const pp_set, const void **const pp_elements, size_t size, set_equal_fn *pfn_is_equal );
 
 /** !
  *  Construct a set from the union of set A and set B
