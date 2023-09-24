@@ -199,7 +199,7 @@ DLLEXPORT bool set_issuperset ( const set *const p_a, const set *const p_b );
  * 
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_add ( set *const p_set, const void *p_element );
+DLLEXPORT int set_add ( set *const p_set, void *const p_element );
 
 /** !
  *  Remove an element form an existing set
