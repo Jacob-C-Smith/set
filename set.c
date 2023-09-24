@@ -236,14 +236,14 @@ int set_add ( set *const p_set, const void *p_element )
             // ... unlock the mutex 
             mutex_unlock(p_set->_lock);
 
-            printf("DUPE: 0x%p\n", p_element);
+            printf("DUPE: %p\n", p_element);
 
             // Success
             return 1;
         }
     }
     
-    printf("UNIQUE: 0x%p\n", p_element);
+    printf("UNIQUE: %p\n", p_element);
 
     // Store the element 
     p_set->elements[p_set->count] = p_element;
