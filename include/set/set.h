@@ -98,6 +98,7 @@ DLLEXPORT int set_from_elements ( set **const pp_set, const void **const pp_elem
  * @param pp_set return
  * @param p_a    pointer to set A
  * @param p_b    pointer to set B
+ * @param pfn_is_equal function for testing equality of elements in set IF parameter is not null ELSE default
  *
  * @sa set_create
  * @sa set_construct
@@ -107,7 +108,7 @@ DLLEXPORT int set_from_elements ( set **const pp_set, const void **const pp_elem
  *
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_union ( set **const pp_set, const set *const p_a, const set *const p_b );
+DLLEXPORT int set_union ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal );
 
 /** !
  *  Construct a set from the difference of set A and set B
@@ -115,7 +116,8 @@ DLLEXPORT int set_union ( set **const pp_set, const set *const p_a, const set *c
  * @param pp_set return
  * @param p_a    set A
  * @param p_b    set B
- * 
+ * @param pfn_is_equal function for testing equality of elements in set IF parameter is not null ELSE default
+ *
  * @sa set_create
  * @sa set_construct
  * @sa set_from_elements
@@ -124,7 +126,7 @@ DLLEXPORT int set_union ( set **const pp_set, const set *const p_a, const set *c
  * 
  * @return 1 on success, 0 on error
 */
-DLLEXPORT int set_difference ( set **const pp_set, const set *const p_a, const set *const p_b );
+DLLEXPORT int set_difference ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal );
 
 /** !
  *  Construct a set from the intersection of set A and set B
@@ -132,7 +134,7 @@ DLLEXPORT int set_difference ( set **const pp_set, const set *const p_a, const s
  * @param pp_set return
  * @param p_a    set A
  * @param p_b    set B
- * 
+ *
  * @sa set_create
  * @sa set_construct
  * @sa set_from_elements
@@ -141,7 +143,7 @@ DLLEXPORT int set_difference ( set **const pp_set, const set *const p_a, const s
  * 
  * @return 1 on success, 0 on error
 */
-DLLEXPORT int set_intersection ( set **const pp_set, const set *const p_a, const set *const p_b );
+DLLEXPORT int set_intersection ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal );
 
 // Accessors
 /** !

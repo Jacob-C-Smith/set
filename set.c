@@ -291,6 +291,264 @@ int set_add ( set *const p_set, void *const p_element )
     }
 }
 
+int set_union ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal )
+{
+
+    // Argument check
+    if ( pp_set == (void *) 0 ) goto no_set;
+    if ( p_a    == (void *) 0 ) goto no_a;
+    if ( p_b    == (void *) 0 ) goto no_b;
+
+    // Initialized data
+    set    *p_set        = 0;
+    size_t  max_set_size = p_a->count + p_b->count;
+    
+    // Construct a set
+    if ( set_construct(&p_set, max_set_size, pfn_is_equal) == 0 ) goto failed_to_construct_set;
+
+    // Iterate through set a
+    for (size_t i = 0; i < p_a->count; i++)
+
+        // Add each element to the new set
+        set_add(p_set, p_a->elements[i]);
+    
+    // Iterate through set b
+    for (size_t i = 0; i < p_b->count; i++)
+
+        // Add each element to the new set
+        set_add(p_set, p_b->elements[i]);
+
+    // Return a pointer to the set to the caller
+    *pp_set = p_set;
+
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_a:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_b:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+        }
+
+        // Set errors
+        {
+            failed_to_construct_set:
+                #ifndef NDEBUG
+                    printf("[set] Call to \"set_construct\" returned an erroneous value in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
+int set_difference ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal )
+{
+        // Argument check
+    if ( pp_set == (void *) 0 ) goto no_set;
+    if ( p_a    == (void *) 0 ) goto no_a;
+    if ( p_b    == (void *) 0 ) goto no_b;
+
+    // Initialized data
+    set    *p_set        = 0;
+    size_t  max_set_size = p_a->count + p_b->count;
+    
+    // Construct a set
+    if ( set_construct(&p_set, max_set_size, pfn_is_equal) == 0 ) goto failed_to_construct_set;
+
+    // Iterate through set a
+    for (size_t i = 0; i < p_a->count; i++)
+
+        // Add each element to the new set
+        set_add(p_set, p_a->elements[i]);
+    
+    // Iterate through set b
+    for (size_t i = 0; i < p_b->count; i++)
+
+        // Add each element to the new set
+        set_add(p_set, p_b->elements[i]);
+
+    // Iterate through set a
+    for (size_t i = 0; i < p_a->count; i++)
+    {
+
+        // Initialized data
+        bool is_a_i_in_b = false;
+
+        // Iterate through set b
+        for (size_t j = 0; j < p_b->count; j++)
+        {
+            // If a[i] is in b
+            if ( pfn_is_equal(p_a->elements[i], p_b->elements[j]) == 0 )
+            {
+
+                // a[i] is in b
+                set_remove(p_set, p_a->elements[i]);
+            }
+        }
+    }
+
+    // Return a pointer to the set to the caller
+    *pp_set = p_set;
+
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_a:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_b:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+        }
+
+        // Set errors
+        {
+            failed_to_construct_set:
+                #ifndef NDEBUG
+                    printf("[set] Call to \"set_construct\" returned an erroneous value in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
+int set_intersection ( set **const pp_set, const set *const p_a, const set *const p_b, set_equal_fn *pfn_is_equal )
+{
+
+    // Argument check
+    if ( pp_set == (void *) 0 ) goto no_set;
+    if ( p_a    == (void *) 0 ) goto no_a;
+    if ( p_b    == (void *) 0 ) goto no_b;
+
+    // Initialized data
+    set    *p_set        = 0;
+    size_t  max_set_size = p_a->count + p_b->count;
+    
+    // Construct a set
+    if ( set_construct(&p_set, max_set_size, pfn_is_equal) == 0 ) goto failed_to_construct_set;
+
+    // Iterate through set a
+    for (size_t i = 0; i < p_a->count; i++)
+    {
+
+        // Initialized data
+        bool is_a_i_in_b = false;
+
+        // Iterate through set b
+        for (size_t j = 0; j < p_b->count; j++)
+        {
+            // If a[i] is in b
+            if ( pfn_is_equal(p_a->elements[i], p_b->elements[j]) == 0 )
+            {
+
+                // a[i] is in b
+                set_add(p_set, p_a->elements[i]);
+            }
+        }
+    }
+
+    // Return a pointer to the set to the caller
+    *pp_set = p_set;
+
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_a:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+            no_b:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                #endif
+
+                // Error
+                return 0;
+
+        }
+
+        // Set errors
+        {
+            failed_to_construct_set:
+                #ifndef NDEBUG
+                    printf("[set] Call to \"set_construct\" returned an erroneous value in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
 int set_remove ( set *const p_set , void *const p_element )
 {
     
@@ -403,9 +661,9 @@ int set_foreach_i ( const set *const p_set, void (*const function)(void *const v
 
 // TODO: Implement these functions
 /*
-int  set_union               ( set       **const pp_set, const set   *const p_a        , const  set *const p_b );
-int  set_difference          ( set       **const pp_set, const set   *const p_a        , const  set *const p_b );
-int  set_intersection        ( set       **const pp_set, const set   *const p_a        , const  set *const p_b );
+UNION WAS HERE 
+DIFFERENCE WAS HERE 
+INTERSECTION WAS HERE 
 bool set_isdisjoint          ( const set  *const p_a   , const set   *const p_b );
 bool set_issubset            ( const set  *const p_a   , const set   *const p_b );
 bool set_issuperset          ( const set  *const p_a   , const set   *const p_b );
