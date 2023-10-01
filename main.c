@@ -5,25 +5,72 @@
 // Include
 #include <set/set.h>
 
+void print_element ( const char *p_string, size_t index )
+{
+    printf("[%d]: %s\n", index, p_string);
+}
+
 // Entry point
 int main ( int argc, const char* argv[] )
 {
 
     // Initialized data
-    set *p_set = (void *) 0;
-    char z[3] = { 'H', 'i', 0x0 };
+    set *p_a                = (void *) 0;
+    set *p_b                = (void *) 0;
+    set *p_a_union_b        = (void *) 0;
+    set *p_a_difference_b   = (void *) 0;
+    set *p_a_intersection_b = (void *) 0;
+    
 
     // Construct a set with 4 elements
-    if ( set_construct(&p_set, 4, (set_equal_fn *)strcmp) == 0 ) goto failed_to_construct_set;
+    if ( set_construct(&p_a, 4, (set_equal_fn *)strcmp) == 0 ) goto failed_to_construct_set;
+    
+    // Construct a set with 4 elements
+    if ( set_construct(&p_b, 4, (set_equal_fn *)strcmp) == 0 ) goto failed_to_construct_set;
 
-    // Add elements to the set
-    set_add(p_set, "Hi");
-    set_add(p_set, "Hello");
-    set_add(p_set, "Hola");
-    set_add(p_set, &z);
+    // Add elements to set a
+    set_add(p_a, "6");
+    set_add(p_a, "1");
+    set_add(p_a, "5");
+    set_add(p_a, "9");
+    
+    // Add elements to set b
+    set_add(p_b, "5");
+    set_add(p_b, "9");
+    set_add(p_b, "8");
+    set_add(p_b, "3");
 
-    // Destruct the set
-    if ( set_destroy(&p_set) == 0 ) goto failed_to_destroy_set;
+    // Compute the union of set a and set b
+    set_union(&p_a_union_b, p_a, p_b, (set_equal_fn *)strcmp);
+    
+    // Compute the difference of set a and set b
+    set_difference(&p_a_difference_b, p_a, p_b, (set_equal_fn *)strcmp);
+    
+    // Compute the intersection of set a and set b
+    set_intersection(&p_a_intersection_b, p_a, p_b, (set_equal_fn *)strcmp);
+
+    // Print each set
+    printf("a: \n");
+    set_foreach_i(p_a, &print_element);
+    
+    printf("b: \n");
+    set_foreach_i(p_b, &print_element);
+
+    printf("a union b: \n");
+    set_foreach_i(p_a_union_b, &print_element);
+
+    printf("a difference b: \n");
+    set_foreach_i(p_a_difference_b, &print_element);
+
+    printf("a intersection b: \n");
+    set_foreach_i(p_a_intersection_b, &print_element);
+
+    // Destruct the sets
+    if ( set_destroy(&p_a)                == 0 ) goto failed_to_destroy_set;
+    if ( set_destroy(&p_b)                == 0 ) goto failed_to_destroy_set;
+    if ( set_destroy(&p_a_union_b)        == 0 ) goto failed_to_destroy_set;
+    if ( set_destroy(&p_a_difference_b)   == 0 ) goto failed_to_destroy_set;
+    if ( set_destroy(&p_a_intersection_b) == 0 ) goto failed_to_destroy_set;
 
     // Success
     return EXIT_SUCCESS;
