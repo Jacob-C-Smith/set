@@ -12,11 +12,11 @@
 // Structure definitions
 struct set_s
 {
-    void   **elements;
-    size_t   max;
-    size_t   count;
-    set_equal_fn *pfn_is_equal;
-    mutex    _lock;
+    void         **elements;
+    size_t         max;
+    size_t         count;
+    set_equal_fn  *pfn_is_equal;
+    mutex          _lock;
 };
 
 int equals_function ( const void *const a, const void *const b )
@@ -236,15 +236,11 @@ int set_add ( set *const p_set, void *const p_element )
             // ... unlock the mutex 
             mutex_unlock(p_set->_lock);
 
-            printf("DUPE: %p\n", p_element);
-
             // Success
             return 1;
         }
     }
     
-    printf("UNIQUE: %p\n", p_element);
-
     // Store the element 
     p_set->elements[p_set->count] = p_element;
 
@@ -293,7 +289,116 @@ int set_add ( set *const p_set, void *const p_element )
                 return 0;
         }
     }
+}
 
+int set_remove ( set *const p_set , void *const p_element )
+{
+    
+    // Argument check
+    if ( p_set == (void *) 0 ) goto no_set;
+
+    // Lock
+    mutex_lock(p_set->_lock);
+
+    // Iterate over each element
+    for (size_t i = 0; i < p_set->count; i++)
+    {
+
+        // If the element is a duplicate ...
+        if ( p_set->pfn_is_equal(p_set->elements[i], p_element) == 0 )
+        {
+            
+            p_set->count--;
+
+            p_set->elements[i] = p_set->elements[p_set->count];
+
+            p_set->elements[p_set->count] = (void *) 0;
+
+            // ... unlock the mutex 
+            mutex_unlock(p_set->_lock);
+
+            // Success
+            return 1;
+        }
+    }
+    
+    // Store the element 
+    p_set->elements[p_set->count] = p_element;
+
+    // Increment the element quantity
+    p_set->count++;
+
+    // Unlock
+    mutex_unlock(p_set->_lock);
+    
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+
+        // Standard library errors
+        {
+            no_mem:
+                #ifndef NDEBUG
+                    printf("[Standard Library] Failed to allocate memory in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
+int set_foreach_i ( const set *const p_set, void (*const function)(void *const value, size_t index) )
+{
+
+    // Argument check
+    if ( p_set    == (void *) 0 ) goto no_set;
+    if ( function == (void *) 0 ) goto no_free_func;
+
+    // Iterate over each element in the set
+    for (size_t i = 0; i < p_set->count; i++)
+        
+        // Call the function
+        function(p_set->elements[i], i);
+
+    // Success
+    return 1;
+
+    // Error handling
+    {
+        
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for \"p_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+            
+            no_free_func:
+                #ifndef NDEBUG
+                    printf("[array] Null pointer provided for \"function\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
 }
 
 // TODO: Implement these functions
@@ -304,13 +409,13 @@ int  set_intersection        ( set       **const pp_set, const set   *const p_a 
 bool set_isdisjoint          ( const set  *const p_a   , const set   *const p_b );
 bool set_issubset            ( const set  *const p_a   , const set   *const p_b );
 bool set_issuperset          ( const set  *const p_a   , const set   *const p_b );
-ADD_WAS_HERE
+ADD WAS HERE
 void set_discard             ( set        *const p_set , void        *      p_element );
 int  set_difference_update   ( set        *const p_a   , const set   *const p_b );
 int  set_intersection_update ( set        *const p_a   , const set   *const p_b );
 int  set_update              ( set        *const p_a   , const set   *const p_b );
 int  set_pop                 ( set        *const p_set , void       **const pp_value );
-int  set_remove              ( set        *const p_set , void        *const p_value );
+REMOVE WAS HERE 
 int  set_clear               ( set        *const p_set );
 int  set_free_clear          ( set        *const p_set , void       (*pfn_free_func) );
 int  set_copy                ( const set  *const p_set , set        **const pp_set );

@@ -289,8 +289,8 @@ DLLEXPORT int set_pop ( set *const p_set, void **const pp_value );
 /** !
  *  Remove an element from a set.
  *
- * @param p_set   the set
- * @param p_value return
+ * @param p_set     the set
+ * @param p_element return
  *
  * @sa set_add
  * @sa set_discard
@@ -301,7 +301,7 @@ DLLEXPORT int set_pop ( set *const p_set, void **const pp_value );
  *
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_remove ( set *const p_set, void *const p_value );
+DLLEXPORT int set_remove ( set *const p_set, void *const p_element );
 
 // Clear elements
 /** !
@@ -337,6 +337,16 @@ DLLEXPORT int set_free_clear ( set *const p_set, void (*pfn_free_func) );
  * @return 1 on success, 0 on error
  */
 DLLEXPORT int set_copy ( const set *const p_set, set **const pp_set );
+
+/** !
+ * Call function on every element in p_set
+ *
+ * @param p_set set
+ * @param function pointer to function of type void (*)(void *value, size_t index)
+ * 
+ * @return 1 on success, 0 on error
+ */
+DLLEXPORT int set_foreach_i ( const set *const p_set, void (*const function)(void *const value, size_t index) );
 
 // Destructors
 /** !
