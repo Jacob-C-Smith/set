@@ -549,6 +549,85 @@ int set_intersection ( set **const pp_set, const set *const p_a, const set *cons
     }
 }
 
+size_t set_count ( const set *const p_set )
+{
+    
+    // Argument check
+    if ( p_set == (void *) 0 ) goto no_set;
+
+    // Return
+    return p_set->count;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"p_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
+int set_pop ( set *const p_set, void **const pp_value )
+{
+    
+    // Argument check
+    if ( p_set == (void *) 0 ) goto no_set;
+
+    // Lock
+    mutex_lock(p_set->_lock);
+
+    p_set->count--;
+
+    *pp_value = p_set->elements[p_set->count];
+
+    p_set->elements[p_set->count] = (void *)0;
+
+    // ... unlock the mutex 
+    mutex_unlock(p_set->_lock);
+
+    // Success
+    return 1;
+
+    // Unlock
+    mutex_unlock(p_set->_lock);
+    
+    // Success
+    return 1;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+
+        // Standard library errors
+        {
+            no_mem:
+                #ifndef NDEBUG
+                    printf("[Standard Library] Failed to allocate memory in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
 int set_remove ( set *const p_set , void *const p_element )
 {
     
@@ -672,7 +751,7 @@ void set_discard             ( set        *const p_set , void        *      p_el
 int  set_difference_update   ( set        *const p_a   , const set   *const p_b );
 int  set_intersection_update ( set        *const p_a   , const set   *const p_b );
 int  set_update              ( set        *const p_a   , const set   *const p_b );
-int  set_pop                 ( set        *const p_set , void       **const pp_value );
+POP WAS HERE
 REMOVE WAS HERE 
 int  set_clear               ( set        *const p_set );
 int  set_free_clear          ( set        *const p_set , void       (*pfn_free_func) );

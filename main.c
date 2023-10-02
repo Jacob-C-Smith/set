@@ -5,9 +5,9 @@
 // Include
 #include <set/set.h>
 
-void print_element ( const char *p_string, size_t index )
+void print_element ( void *const p_string, size_t index )
 {
-    printf("[%d]: %s\n", index, p_string);
+    printf("%s, ", p_string);
 }
 
 // Entry point
@@ -21,7 +21,6 @@ int main ( int argc, const char* argv[] )
     set *p_a_difference_b   = (void *) 0;
     set *p_a_intersection_b = (void *) 0;
     
-
     // Construct a set with 4 elements
     if ( set_construct(&p_a, 4, (set_equal_fn *)strcmp) == 0 ) goto failed_to_construct_set;
     
@@ -50,20 +49,21 @@ int main ( int argc, const char* argv[] )
     set_intersection(&p_a_intersection_b, p_a, p_b, (set_equal_fn *)strcmp);
 
     // Print each set
-    printf("a: \n");
+    printf("a:                { ");
     set_foreach_i(p_a, &print_element);
     
-    printf("b: \n");
+    printf("}\nb:                { ");
     set_foreach_i(p_b, &print_element);
 
-    printf("a union b: \n");
+    printf("}\na union b:        { ");
     set_foreach_i(p_a_union_b, &print_element);
 
-    printf("a difference b: \n");
+    printf("}\na difference b:   { ");
     set_foreach_i(p_a_difference_b, &print_element);
 
-    printf("a intersection b: \n");
+    printf("}\na intersection b: { ");
     set_foreach_i(p_a_intersection_b, &print_element);
+    printf("}\n ");
 
     // Destruct the sets
     if ( set_destroy(&p_a)                == 0 ) goto failed_to_destroy_set;

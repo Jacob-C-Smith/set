@@ -147,6 +147,15 @@ DLLEXPORT int set_intersection ( set **const pp_set, const set *const p_a, const
 
 // Accessors
 /** !
+ *  Return the quantity of elements in the set
+ * 
+ * @param p_set the set
+ * 
+ * @return The quantity of elements in the set
+ */
+DLLEXPORT size_t set_count ( const set *const p_set );
+
+/** !
  *  Test if set A and set B are disjoint
  * 
  * @param p_a set A
@@ -348,7 +357,7 @@ DLLEXPORT int set_copy ( const set *const p_set, set **const pp_set );
  * 
  * @return 1 on success, 0 on error
  */
-DLLEXPORT int set_foreach_i ( const set *const p_set, void (*const function)(void *const value, size_t index) );
+DLLEXPORT int set_foreach_i ( const set *const p_set, void (*function)(void *const value, size_t index) );
 
 // Destructors
 /** !
