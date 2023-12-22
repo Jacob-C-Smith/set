@@ -216,6 +216,58 @@ int set_from_elements ( set **const pp_set, const void **const pp_elements, size
     }
 }
 
+int set_contents ( const set *const p_set, void **const pp_contents )
+{
+
+    // Argument check
+    if ( p_set       == (void *) 0 ) goto no_set;
+
+    // Count branch
+    if ( pp_contents == (void *) 0 ) goto return_count;
+
+
+    // Lock
+    mutex_lock(p_set->_lock);
+
+    // Copy the elements
+    memcpy(pp_contents, p_set->elements, sizeof(void *) * p_set->count);
+
+    // Unlock
+    mutex_unlock(p_set->_lock);
+    
+    // Success
+    return 1;
+
+    // Count branch
+    return_count:
+
+        // Success
+        return p_set->count;
+
+    // Error handling
+    {
+
+        // Argument errors
+        {
+            no_set:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+
+            no_return:
+                #ifndef NDEBUG
+                    printf("[set] Null pointer provided for parameter \"pp_contents\" in call to function \"%s\"\n", __FUNCTION__);
+                #endif
+
+                // Error
+                return 0;
+        }
+    }
+}
+
 int set_add ( set *const p_set, void *const p_element )
 {
 
@@ -743,9 +795,6 @@ int set_foreach_i ( const set *const p_set, void (*const function)(void *const v
 UNION WAS HERE 
 DIFFERENCE WAS HERE 
 INTERSECTION WAS HERE 
-bool set_isdisjoint          ( const set  *const p_a   , const set   *const p_b );
-bool set_issubset            ( const set  *const p_a   , const set   *const p_b );
-bool set_issuperset          ( const set  *const p_a   , const set   *const p_b );
 ADD WAS HERE
 void set_discard             ( set        *const p_set , void        *      p_element );
 int  set_difference_update   ( set        *const p_a   , const set   *const p_b );

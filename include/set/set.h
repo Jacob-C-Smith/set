@@ -194,6 +194,16 @@ DLLEXPORT bool set_issubset ( const set *const p_a, const set *const p_b );
 */
 DLLEXPORT bool set_issuperset ( const set *const p_a, const set *const p_b );
 
+/** !
+ *  Get the contents of a set
+ * 
+ * @param p_set       the set
+ * @param pp_contents the contents of the set
+ * 
+ * @return 1 on success, 0 on error
+ */
+DLLEXPORT int set_contents ( const set *const p_set, void **const pp_contents );
+
 // Mutators
 /** !
  *  Add an element to a set. 
