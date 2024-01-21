@@ -635,10 +635,13 @@ int set_pop ( set *const p_set, void **const pp_value )
     // Lock
     mutex_lock(p_set->_lock);
 
+    // Decrement the quantity of elements in the set
     p_set->count--;
 
+    // Return the value to the caller
     *pp_value = p_set->elements[p_set->count];
 
+    // Zero set the pop()'d element
     p_set->elements[p_set->count] = (void *)0;
 
     // ... unlock the mutex 

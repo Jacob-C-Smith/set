@@ -156,45 +156,6 @@ DLLEXPORT int set_intersection ( set **const pp_set, const set *const p_a, const
 DLLEXPORT size_t set_count ( const set *const p_set );
 
 /** !
- *  Test if set A and set B are disjoint
- * 
- * @param p_a set A
- * @param p_b set B
- * 
- * @sa set_issubset
- * @sa set_issuperset
- * 
- * @return true if set A is disjoint to set B else false
- */
-DLLEXPORT bool set_isdisjoint ( const set *const p_a, const set *const p_b );
-
-/** !
- *  Test if set A is a subset of set B
- * 
- * @param p_a set A
- * @param p_b set B
- * 
- * @sa set_isdisjoint
- * @sa set_issuperset
- * 
- * @return true if A is a subset of B else false
-*/
-DLLEXPORT bool set_issubset ( const set *const p_a, const set *const p_b );
-
-/** !
- *  Test if set A is a superset of set B
- * 
- * @param p_a set A
- * @param p_b set B
- * 
- * @sa set_isdisjoint
- * @sa set_issubset
- * 
- * @return true if A is a superset of B else false
-*/
-DLLEXPORT bool set_issuperset ( const set *const p_a, const set *const p_b );
-
-/** !
  *  Get the contents of a set
  * 
  * @param p_set       the set
@@ -222,142 +183,11 @@ DLLEXPORT int set_contents ( const set *const p_set, void **const pp_contents );
  */
 DLLEXPORT int set_add ( set *const p_set, void *const p_element );
 
-/** !
- *  Remove an element form an existing set
- *
- * @param pp_set return
- * @param size   number of set elements. 
- *
- * @sa set_add
- * @sa set_difference_update
- * @sa set_intersection_update
- * @sa set_update
- * @sa set_pop
- * @sa set_remove
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT void set_discard ( set *const p_set, void *p_element );
-
-/** !
- *  Update an existing set with the difference of itself and another set 
- *
- * @param p_a an existing set
- * @param p_b another set
- *
- * @sa set_add
- * @sa set_discard
- * @sa set_intersection_update
- * @sa set_update
- * @sa set_pop
- * @sa set_remove
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_difference_update ( set *const p_a, const set *const p_b );
-
-/** !
- *  Update an existing set with the intersection of itself and another set 
- *
- * @param p_a an existing set
- * @param p_b another set
- *
- * @sa set_add
- * @sa set_discard
- * @sa set_difference_update
- * @sa set_update
- * @sa set_pop
- * @sa set_remove
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_intersection_update ( set *const p_a, const set *const p_b );
-
-/** !
- *  Update an existing set with the union of itself and another set 
- *
- * @param p_a an existing set
- * @param p_b another set
- *
- * @sa set_add
- * @sa set_discard
- * @sa set_difference_update
- * @sa set_intersection_update
- * @sa set_pop
- * @sa set_remove
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_update ( set *const p_a, const set *const p_b );
-
-/** !
- *  Remove and return an element from a set
- *
- * @param p_set    the set
- * @param pp_value return
- *
- * @sa set_add
- * @sa set_discard
- * @sa set_difference_update
- * @sa set_intersection_update
- * @sa set_update
- * @sa set_remove
- *
- * @return 1 on success, 0 on error
- */
+// Remove and return an element from a set
 DLLEXPORT int set_pop ( set *const p_set, void **const pp_value );
 
-/** !
- *  Remove an element from a set.
- *
- * @param p_set     the set
- * @param p_element return
- *
- * @sa set_add
- * @sa set_discard
- * @sa set_difference_update
- * @sa set_intersection_update
- * @sa set_update
- * @sa set_pop
- *
- * @return 1 on success, 0 on error
- */
+// Remove an element from a set.
 DLLEXPORT int set_remove ( set *const p_set, void *const p_element );
-
-// Clear elements
-/** !
- *  Remove all elements from a set
- *
- * @param p_set set
- *
- * @sa set_free_clear
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_clear ( set *const p_set );
-
-/** !
- *  Remove all elements from a set, and deallocate values with pfn_free_func
- *
- * @param p_set         the set
- * @param pfn_free_func pointer to deallocator function of type void (*)(void *)
- * 
- * @sa set_clear
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_free_clear ( set *const p_set, void (*pfn_free_func) );
-
-// Shallow copy
-/** !
- *  Make a shallow copy of a set
- *
- * @param p_set  the set
- * @param pp_set return
- *
- * @return 1 on success, 0 on error
- */
-DLLEXPORT int set_copy ( const set *const p_set, set **const pp_set );
 
 /** !
  * Call function on every element in p_set
@@ -380,3 +210,33 @@ DLLEXPORT int set_foreach_i ( const set *const p_set, void (*function)(void *con
  * @return 1 on success, 0 on error
  */
 DLLEXPORT int set_destroy ( set **const pp_set );
+
+// TODO: Test if set A and set B are disjoint
+// DLLEXPORT bool set_isdisjoint ( const set *const p_a, const set *const p_b );
+
+// TODO: Test if set A is a subset of set B
+// DLLEXPORT bool set_issubset ( const set *const p_a, const set *const p_b );
+
+// TODO: Test if set A is a superset of set B
+// DLLEXPORT bool set_issuperset ( const set *const p_a, const set *const p_b );
+
+// TODO: Remove all elements from a set
+// DLLEXPORT int set_clear ( set *const p_set );
+
+// TODO: Remove all elements from a set, and deallocate values with pfn_free_func
+// DLLEXPORT int set_free_clear ( set *const p_set, void (*pfn_free_func) );
+
+// TODO: Make a shallow copy of a set
+// DLLEXPORT int set_copy ( const set *const p_set, set **const pp_set );
+
+// TODO: Remove an element form an existing set
+// DLLEXPORT void set_discard ( set *const p_set, void *p_element );
+
+// TODO: Update an existing set with the difference of itself and another set 
+// DLLEXPORT int set_difference_update ( set *const p_a, const set *const p_b );
+
+// TODO: Update an existing set with the intersection of itself and another set 
+// DLLEXPORT int set_intersection_update ( set *const p_a, const set *const p_b );
+
+// TODO: Update an existing set with the union of itself and another set 
+// DLLEXPORT int set_update ( set *const p_a, const set *const p_b );
