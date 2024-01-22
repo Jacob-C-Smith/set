@@ -383,7 +383,7 @@ int set_union ( set **const pp_set, const set *const p_a, const set *const p_b, 
         {
             no_set:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -391,7 +391,7 @@ int set_union ( set **const pp_set, const set *const p_a, const set *const p_b, 
 
             no_a:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -399,7 +399,7 @@ int set_union ( set **const pp_set, const set *const p_a, const set *const p_b, 
 
             no_b:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -479,7 +479,7 @@ int set_difference ( set **const pp_set, const set *const p_a, const set *const 
         {
             no_set:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -487,7 +487,7 @@ int set_difference ( set **const pp_set, const set *const p_a, const set *const 
 
             no_a:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -495,7 +495,7 @@ int set_difference ( set **const pp_set, const set *const p_a, const set *const 
 
             no_b:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -564,7 +564,7 @@ int set_intersection ( set **const pp_set, const set *const p_a, const set *cons
         {
             no_set:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"pp_set\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -572,7 +572,7 @@ int set_intersection ( set **const pp_set, const set *const p_a, const set *cons
 
             no_a:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_a\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
@@ -580,7 +580,7 @@ int set_intersection ( set **const pp_set, const set *const p_a, const set *cons
 
             no_b:
                 #ifndef NDEBUG
-                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__)
+                    printf("[set] Null pointer provided for parameter\"p_b\" in call to function \"%s\"\n", __FUNCTION__);
                 #endif
 
                 // Error
