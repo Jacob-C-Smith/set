@@ -227,13 +227,13 @@ int set_contents ( const set *const p_set, void **const pp_contents )
 
 
     // Lock
-    mutex_lock(p_set->_lock);
+    mutex_lock(&p_set->_lock);
 
     // Copy the elements
     memcpy(pp_contents, p_set->elements, sizeof(void *) * p_set->count);
 
     // Unlock
-    mutex_unlock(p_set->_lock);
+    mutex_unlock(&p_set->_lock);
     
     // Success
     return 1;
@@ -275,7 +275,7 @@ int set_add ( set *const p_set, void *const p_element )
     if ( p_set == (void *) 0 ) goto no_set;
 
     // Lock
-    mutex_lock(p_set->_lock);
+    mutex_lock(&p_set->_lock);
 
     // Iterate over each element
     for (size_t i = 0; i < p_set->count; i++)
@@ -286,7 +286,7 @@ int set_add ( set *const p_set, void *const p_element )
         {
             
             // ... unlock the mutex 
-            mutex_unlock(p_set->_lock);
+            mutex_unlock(&p_set->_lock);
 
             // Success
             return 1;
@@ -300,7 +300,7 @@ int set_add ( set *const p_set, void *const p_element )
     p_set->count++;
 
     // Unlock
-    mutex_unlock(p_set->_lock);
+    mutex_unlock(&p_set->_lock);
     
     // Success
     return 1;
@@ -633,7 +633,7 @@ int set_pop ( set *const p_set, void **const pp_value )
     if ( p_set == (void *) 0 ) goto no_set;
 
     // Lock
-    mutex_lock(p_set->_lock);
+    mutex_lock(&p_set->_lock);
 
     // Decrement the quantity of elements in the set
     p_set->count--;
@@ -645,13 +645,13 @@ int set_pop ( set *const p_set, void **const pp_value )
     p_set->elements[p_set->count] = (void *)0;
 
     // ... unlock the mutex 
-    mutex_unlock(p_set->_lock);
+    mutex_unlock(&p_set->_lock);
 
     // Success
     return 1;
 
     // Unlock
-    mutex_unlock(p_set->_lock);
+    mutex_unlock(&p_set->_lock);
     
     // Success
     return 1;
@@ -690,7 +690,7 @@ int set_remove ( set *const p_set , void *const p_element )
     if ( p_set == (void *) 0 ) goto no_set;
 
     // Lock
-    mutex_lock(p_set->_lock);
+    mutex_lock(&p_set->_lock);
 
     // Iterate over each element
     for (size_t i = 0; i < p_set->count; i++)
@@ -707,7 +707,7 @@ int set_remove ( set *const p_set , void *const p_element )
             p_set->elements[p_set->count] = (void *) 0;
 
             // ... unlock the mutex 
-            mutex_unlock(p_set->_lock);
+            mutex_unlock(&p_set->_lock);
 
             // Success
             return 1;
@@ -721,7 +721,7 @@ int set_remove ( set *const p_set , void *const p_element )
     p_set->count++;
 
     // Unlock
-    mutex_unlock(p_set->_lock);
+    mutex_unlock(&p_set->_lock);
     
     // Success
     return 1;
@@ -823,7 +823,7 @@ int set_destroy ( set **const pp_set )
     *pp_set = (void *) 0;
 
     // Lock the mutex
-    mutex_lock(p_set->_lock);
+    mutex_lock(&p_set->_lock);
 
     // Free the set elements
     (void)SET_REALLOC(p_set->elements, 0); 
