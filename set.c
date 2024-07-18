@@ -9,6 +9,9 @@
 // Headers
 #include <set/set.h>
 
+// Data 
+static bool initialized = false;
+
 // Structure definitions
 struct set_s
 {
@@ -24,6 +27,25 @@ int equals_function ( const void *const a, const void *const b )
     
     // Return
     return !( a == b );
+}
+
+void set_init ( void )
+{
+
+    // State check
+    if ( initialized == true ) return;
+
+    // Initialize log
+    log_init();
+
+    // Initialize log
+    sync_init();
+
+    // Set the initialized flag
+    initialized = true;
+
+    // Done
+    return;
 }
 
 int set_create ( set **const pp_set )
@@ -848,4 +870,26 @@ int set_destroy ( set **const pp_set )
                 return 0;
         }
     }
+}
+
+void set_exit ( void )
+{
+
+    // State check
+    if ( initialized == false ) return;
+
+    // Clean up sync
+    sync_exit();
+
+    // Clean up log
+    log_exit();
+
+    // TODO: Anything else?
+    //
+
+    // Clear the initialized flag
+    initialized = false;
+
+    // Done
+    return;
 }

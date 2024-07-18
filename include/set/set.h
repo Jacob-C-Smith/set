@@ -44,6 +44,16 @@ typedef struct set_s set;
  */
 typedef int (set_equal_fn)(const void *a, const void *b);
 
+// Initializer
+/** !
+ * This gets called at runtime before main.
+ * 
+ * @param void
+ * 
+ * @return void
+ */
+DLLEXPORT void set_init ( void ) __attribute__((constructor));
+
 // Allocaters
 /** !
  *  Allocate memory for a set
@@ -210,6 +220,16 @@ DLLEXPORT int set_foreach_i ( const set *const p_set, void (*function)(void *con
  * @return 1 on success, 0 on error
  */
 DLLEXPORT int set_destroy ( set **const pp_set );
+
+// Cleanup
+/** !
+ * This gets called after main
+ * 
+ * @param void
+ * 
+ * @return void
+ */
+DLLEXPORT void set_exit ( void ) __attribute__((destructor));
 
 // TODO: Test if set A and set B are disjoint
 // DLLEXPORT bool set_isdisjoint ( const set *const p_a, const set *const p_b );
